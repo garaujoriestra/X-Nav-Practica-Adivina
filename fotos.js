@@ -74,7 +74,6 @@ function cogerJson(tipoJuego) {
      tag = data.juego[contador_tags].properties.name;
      pedirFotos(tag);
      contador_tags++;
-    console.log("CONTADOR 0: " + contador_tags);
 
      map.on('click',function(e){
       $("#distancia").text("Resultado : " + tag);
@@ -141,8 +140,6 @@ function guardarJuego(){
     contador_fotos : contador_fotos
   };
   history.replaceState(stateObj ,null,"?juego=" + tipoJuego);
-  console.log("CONTADOR : " + stateObj.contador_tags);
-  console.log("CONTADOR 1: " + contador_tags);
   $("#historial").append('<li ><a value="'+contador_history+'"> '+tipoJuego + ' ' + hora() + ' puntuacion: ' + puntuacionTotal+ '</a></li>');
   contador_history++;
 }
@@ -169,16 +166,10 @@ window.onpopstate = function(event) {
   contador_fotos = 1;
   contador_tags = 0;
   puntuacionTotal = parseInt(JSON.stringify(event.state.puntuacionGuardada));
-  console.log(dificultad);
   dificultad = JSON.stringify(event.state.dificultad).split('"')[1];
-  console.log(dificultad);
   contador_tags = JSON.stringify(event.state.contador_tags);
-  console.log(contador_tags);
-  //contador_fotos = JSON.stringify(event.state.contador_fotos);
-  //tipoJuego = JSON.stringify(event.state.tipoJuego);
   tipoJuego = $("#tipo_juego").val();
   cogerJson(tipoJuego);
-  //pushJuego();
 };
 function bloquearSelects(){
   $("#tipo_juego").prop('disabled', false);
@@ -205,13 +196,9 @@ $("#box-historial").on("click","a",function(){
 
 function cambiarHistory(valor){
   var ir = valor - contador_history;
-  console.log("Valor: "+ valor + ", contador_history: " + contador_history + ", ir: " + ir);
-
   contador_history = valor;
-  console.log("Valor1: "+ valor + ", contador_history: " + contador_history + ", ir: " + ir);
 
   if(ir != 0){
-    console.log("LANZANDO HISTORY");
     history.go(ir);
   }else{
     alert("ESTAS EN ESE JUEGO");
