@@ -12,7 +12,6 @@ var puntuacionFoto;
 var tipoJuego;
 var value = 0;
 var map;
-var vieneHistorial = false;
 var contador_history = 0;
 var puntuacionTotal = 0;
 
@@ -40,7 +39,6 @@ function pedirFotos(tag){
     format: "json"
   })
   .done(function( data ) {
-    console.log("ME LLAMAN");
       interval = setInterval(function() {
         var foto = data.items[contador_fotos].media.m;
         cambiarFoto(foto);
@@ -69,23 +67,32 @@ function inicializarValores() {
   clearInterval(interval);
 }
 function cogerJson(tipoJuego) {
+  clearInterval(interval);
+
   $.getJSON( tipoJuego+".json")
    .done(function( data ) {
-     tag = data.juego[contador_tags];
-     pedirFotos(tag.properties.name);
+     tag = data.juego[contador_tags].properties.name;
+     pedirFotos(tag);
      contador_tags++;
-     //$( "#map" ).click(function() {
      map.on('click',function(e){
+      $("#distancia").text("Resultado : " + tag);
       if(contador_tags == 4){
-        alert("SE ACABO EL JUEGO");
+        alert("Se acabo el juego! Su puntuacion en esta partida es :" + puntuacionTotal);
+        clearInterval(interval);
+        reiniciarSelects();
+        $("#images").empty();
+        $("#contador_fotos").html("0/10");
+        contador_tags = 0;
+        return;
       }else{
-        inicializarValores(); 
+        clearInterval(interval);
+        contador_fotos = 1;
         $("#puntuacion").css("display","block");
         tag = data.juego[contador_tags].properties.name;
         latFoto = data.juego[contador_tags].geometry.coordinates.toString().split(",")[0];
         longFoto = data.juego[contador_tags].geometry.coordinates.toString().split(",")[0];
-        calcularPuntuacion();
         pedirFotos(tag);
+        calcularPuntuacion(tag);
         contador_tags++;
       }
      });
@@ -99,7 +106,8 @@ function calcularPuntuacion() {
   if (puntuacionFoto < 0)
     puntuacionFoto = puntuacionFoto * (-1);
   puntuacionTotal = puntuacionTotal + puntuacionFoto;
-  $("#puntuacion").text("Puntuacion : " + puntuacionTotal);
+  
+  $("#puntuacion").text("Puntuacion : " + puntuacionTotal );
 }
 $("#tipo_juego").change(function(){
     $("#tipo_juego").prop('disabled', true);
@@ -121,7 +129,6 @@ function hora(){
 }
 
 function guardarJuego(){
-  console.log("ENTRO EN GUARDAR JUEGO");
   var stateObj = {
     puntuacionGuardada: puntuacionTotal,
     tipoJuego : tipoJuego,
@@ -130,11 +137,8 @@ function guardarJuego(){
     contador_fotos : contador_fotos
   };
   history.replaceState(stateObj ,null,"?juego=" + tipoJuego);
-  console.log(stateObj);
   $("#historial").append('<li ><a value="'+contador_history+'"> '+tipoJuego + ' ' + hora() +  '</a></li>');
-  console.log("ANTES DE AUMENTAR HISTORY " + contador_history);
   contador_history++;
-  console.log("DESPUES DE AUMENTAR HISTORY " + contador_history);
 }
 
 function pushJuego(){
@@ -147,26 +151,21 @@ function pushJuego(){
   };
   history.pushState(stateObj ,null,"?juego=" + tipoJuego);
 }
-function rellenarStateObj(){  
-  stateObj[puntuacionGuardada] = puntuacionTotal;
-  console.log("puntuacion : " + stateOb);
-  stateObj["tipoJuego"] = tipoJuego;
-  stateObj["dificultad"] = dificultad;
-  stateObj["contador_fotos"] = contador_fotos;
-  stateObj["contador_tags"] = contador_tags;
-}
 
 
 window.onpopstate = function(event) {
-  console.log("CONTADOR DENTROOOOOO" + contador_history);
-  //alert("location: " + document.location + ", state: " + JSON.stringify(event.state.puntuacionGuardada));
   alert("Retomando juego en su estado pasado");
   $("#puntuacion").html(JSON.stringify(event.state.puntuacionGuardada));
   $("#dificultad option[value="+JSON.stringify(event.state.dificultad)+"]").attr('selected', 'selected');
   $("#tipo_juego option[value="+JSON.stringify(event.state.tipoJuego)+"]").attr('selected', 'selected');
+  $("#tipo_juego").prop('disabled', true);
+  $("#dificultad").prop('disabled', true);
   contador_tags = JSON.stringify(event.state.contador_tags);
   contador_fotos = JSON.stringify(event.state.contador_fotos);
-  vieneHistorial = true;
+  //tipoJuego = JSON.stringify(event.state.tipoJuego);
+  tipoJuego = $("#tipo_juego").val();
+  cogerJson(tipoJuego);
+  pushJuego();
 };
 function bloquearSelects(){
   $("#tipo_juego").prop('disabled', false);
@@ -185,7 +184,7 @@ function bloquarBotonoes(){
   $("#fotos").css("display","none");
 }
 $("#box-historial").on("click","a",function(){
-  console.log("dentro");
+  clearInterval(interval);
   var valor = $(this).attr("value");
   cambiarHistory(valor);
 });
@@ -194,7 +193,6 @@ function cambiarHistory(valor){
   var ir = valor - contador_history;
   contador_history = valor;
   if(ir != 0){
-    inicializarValores();
     history.go(ir);
   }else{
     alert("ESTAS EN ESE JUEGO");
@@ -205,13 +203,13 @@ $(document).ready(function() {
   $("#iniciar").click(function(){
     inicializarValores();
     bloquearSelects();
+    map.off('click');
     function onMapClick(e) {
       latLng = e.latlng; 
       clearInterval(interval);
     }
     map.on('click', onMapClick);
     tipoJuego = $("#tipo_juego").val();
-    vieneHistorial = true;
     cogerJson(tipoJuego);
     pushJuego();
   });
@@ -221,6 +219,16 @@ $(document).ready(function() {
     clearInterval(interval);
     reiniciarSelects();
     guardarJuego();
+    $("#distancia").text("");
+    $("#puntuacion").text("0");
+  });
+   $("#abortar").click(function(){
+    contador_tags = 0;
+    map.off('click');
+    clearInterval(interval);
+    reiniciarSelects();
+    $("#distancia").text("");
+    $("#puntuacion").text("0");
   });
 
   map = L.map('map').setView([43.841471, -39.541545],2);
