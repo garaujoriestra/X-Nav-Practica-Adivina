@@ -1,0 +1,40 @@
+{"type": "FeatureCollection",
+	"juego": [
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [40.426329, -3.710779]
+		  },
+		  "properties": {
+		    "name": "Madrid Centro"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [52.535534, 13.394924]
+		  },
+		  "properties": {
+		    "name": "New York"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [55.721958, 37.666827]
+		  },
+		  "properties": {
+		    "name": "Moscu"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [35.710792, 139.733996]
+		  },
+		  "properties": {
+		    "name": "Tokyo"
+		  }
+		}
+	 ]
+}

@@ -1,0 +1,37 @@
+
+div#map{
+  width: 100%;
+  height: 450px;
+}
+div#controles{
+
+}
+div#fotos{
+}
+#titulo{
+  text-align: center;
+}
+
+.centrado{
+  text-align: center;
+  font-weight: 600;
+}
+.imagenn{
+  width: 300px;
+  height: 300px;
+}
+#contador_fotos{
+	text-align: center;
+}
+#puntuacion{
+	display: none;
+}
+#botones{
+	margin-top: 75px;
+}
+#fotos{
+	margin-top: 30px;
+}
+#historial{
+	list-style: none;
+}

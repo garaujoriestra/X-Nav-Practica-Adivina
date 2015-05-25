@@ -1,0 +1,40 @@
+{"type": "FeatureCollection",
+	"juego": [
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [40.443020, -5.163195]
+		  },
+		  "properties": {
+		    "name": "Español"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [35.251519, 106.684940]
+		  },
+		  "properties": {
+		    "name": "Chino"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [52.534867, 10.080584]
+		  },
+		  "properties": {
+		    "name": "Aleman"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [55.775273, 38.996600]
+		  },
+		  "properties": {
+		    "name": "Ruso"
+		  }
+		}
+	 ]
+}
