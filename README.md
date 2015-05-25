@@ -9,8 +9,19 @@ La práctica consiste en la creación de una aplicación HTML5 que permita jugar
 Detalles del enunciado en el programa de la asignatura.
 
 
-## Observaciones
+## DATOS:
 
-He realizado mi práctica utilizando HTML5, CSS3 y la bootstrap para la parte de front-end.
-Ademas utilizo la librerias de leaflet para la parte del mapa y la de Flickr para la parte de las fotos.
-La aplicación web es totalmente responsive y tiene un importante uso de la libreria Jquery  de javascript.
+-login : garaujoriestra
+
+- Parte Obligatoria
+
+	He realizado mi práctica utilizando HTML5, CSS3 y la bootstrap para la parte de front-end.
+	Ademas utilizo la librerias de leaflet para la parte del mapa y la de Flickr para la parte de las fotos.
+	La aplicación web es totalmente responsive y tiene un importante uso de la libreria Jquery  de javascript.
+
+- URL youtube funcionalidad básica
+
+	(Funcionalidad básica Youtube)[https://www.youtube.com/watch?v=EfldDqMgFbo].
+	
+
+
