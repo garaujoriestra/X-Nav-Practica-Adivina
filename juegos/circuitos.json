@@ -1,0 +1,59 @@
+{"type": "FeatureCollection",
+	"juego": [
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [-37.847, 144.974]
+		  },
+		  "properties": {
+		    "name": "Melbourne"
+		  }
+	   },
+	    {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [2.76111, 101.73611]
+		  },
+		  "properties": {
+		    "name": "Malasia"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [45.50556, -73.52500]
+		  },
+		  "properties": {
+		    "name": "Canada"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [41.569444, 2.258333]
+
+		  },
+		  "properties": {
+		    "name": "Circuito Montmelo"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [43.734722, 7.420556]
+		  },
+		  "properties": {
+		    "name": "Monaco"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [25.488889, 51.452778]
+		  },
+		  "properties": {
+		    "name": "Qatar"
+		  }
+		}
+	 ]
+}

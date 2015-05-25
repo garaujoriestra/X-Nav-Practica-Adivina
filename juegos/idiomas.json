@@ -12,6 +12,24 @@
 	   {  "type": "Feature",
 		  "geometry": {
 		    "type": "Point",
+		    "coordinates": [49.358947,-0.855544]
+		  },
+		  "properties": {
+		    "name": "Frances"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [36.6963, -2.7942]
+		  },
+		  "properties": {
+		    "name": "Portugues"
+		  }
+	   },
+	   {  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
 		    "coordinates": [35.251519, 106.684940]
 		  },
 		  "properties": {

@@ -69,15 +69,19 @@ function inicializarValores() {
 function cogerJson(tipoJuego) {
   clearInterval(interval);
 
-  $.getJSON( tipoJuego+".json")
+  $.getJSON( "juegos/" + tipoJuego+".json")
    .done(function( data ) {
      tag = data.juego[contador_tags].properties.name;
      pedirFotos(tag);
      contador_tags++;
+    console.log("CONTADOR 0: " + contador_tags);
+
      map.on('click',function(e){
       $("#distancia").text("Resultado : " + tag);
-      if(contador_tags == 4){
+      if(contador_tags == 6){
+        calcularPuntuacion(tag);
         alert("Se acabo el juego! Su puntuacion en esta partida es :" + puntuacionTotal);
+        guardarJuego();
         clearInterval(interval);
         reiniciarSelects();
         $("#images").empty();
@@ -137,7 +141,9 @@ function guardarJuego(){
     contador_fotos : contador_fotos
   };
   history.replaceState(stateObj ,null,"?juego=" + tipoJuego);
-  $("#historial").append('<li ><a value="'+contador_history+'"> '+tipoJuego + ' ' + hora() +  '</a></li>');
+  console.log("CONTADOR : " + stateObj.contador_tags);
+  console.log("CONTADOR 1: " + contador_tags);
+  $("#historial").append('<li ><a value="'+contador_history+'"> '+tipoJuego + ' ' + hora() + ' puntuacion: ' + puntuacionTotal+ '</a></li>');
   contador_history++;
 }
 
@@ -155,17 +161,24 @@ function pushJuego(){
 
 window.onpopstate = function(event) {
   alert("Retomando juego en su estado pasado");
-  $("#puntuacion").html(JSON.stringify(event.state.puntuacionGuardada));
+  $("#puntuacion").html(parseInt(JSON.stringify(event.state.puntuacionGuardada)));
   $("#dificultad option[value="+JSON.stringify(event.state.dificultad)+"]").attr('selected', 'selected');
   $("#tipo_juego option[value="+JSON.stringify(event.state.tipoJuego)+"]").attr('selected', 'selected');
   $("#tipo_juego").prop('disabled', true);
   $("#dificultad").prop('disabled', true);
+  contador_fotos = 1;
+  contador_tags = 0;
+  puntuacionTotal = parseInt(JSON.stringify(event.state.puntuacionGuardada));
+  console.log(dificultad);
+  dificultad = JSON.stringify(event.state.dificultad).split('"')[1];
+  console.log(dificultad);
   contador_tags = JSON.stringify(event.state.contador_tags);
-  contador_fotos = JSON.stringify(event.state.contador_fotos);
+  console.log(contador_tags);
+  //contador_fotos = JSON.stringify(event.state.contador_fotos);
   //tipoJuego = JSON.stringify(event.state.tipoJuego);
   tipoJuego = $("#tipo_juego").val();
   cogerJson(tipoJuego);
-  pushJuego();
+  //pushJuego();
 };
 function bloquearSelects(){
   $("#tipo_juego").prop('disabled', false);
@@ -185,14 +198,20 @@ function bloquarBotonoes(){
 }
 $("#box-historial").on("click","a",function(){
   clearInterval(interval);
+  map.off('click');
   var valor = $(this).attr("value");
   cambiarHistory(valor);
 });
 
 function cambiarHistory(valor){
   var ir = valor - contador_history;
+  console.log("Valor: "+ valor + ", contador_history: " + contador_history + ", ir: " + ir);
+
   contador_history = valor;
+  console.log("Valor1: "+ valor + ", contador_history: " + contador_history + ", ir: " + ir);
+
   if(ir != 0){
+    console.log("LANZANDO HISTORY");
     history.go(ir);
   }else{
     alert("ESTAS EN ESE JUEGO");
@@ -214,11 +233,12 @@ $(document).ready(function() {
     pushJuego();
   });
   $("#nuevo").click(function(){
-    contador_tags = 0;
+    
     map.off('click');
     clearInterval(interval);
     reiniciarSelects();
     guardarJuego();
+    contador_tags = 0;
     $("#distancia").text("");
     $("#puntuacion").text("0");
   });
